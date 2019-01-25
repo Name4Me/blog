@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/',function() {
     return view('welcome');
 });
+Route::resource('/category','CategoryController');
+Route::resource('/article','ArticleController');
+Route::resource('/comment','CommentController');
+Route::get('/download/{id}','ArticleController@download');
+
