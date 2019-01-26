@@ -10,32 +10,29 @@
                           required></textarea>
             </div>
             <div class="col-2">
-                @push('scripts')
-                    <script src="../../js/app.js"></script>
-                @endpush
-                {{--
+
                                 <script>
-                                    function getMessage() {
+                                    function sendMessage() {
                                         String.prototype.firstLetterCaps = function () {
                                             return this.charAt(0).toUpperCase() + this.slice(1);
                                         };
-                                        let str = $("#author").val();
-                                        if (str.length == 0) {
+                                        let author = $("#author");
+                                        let str = author.val();
+                                        if (str.length===null|| str.length===undefined || str.length === 0) {
                                             alert('Имя должно содержать два слова');
                                             return;
                                         }
-                                        let comment = $("#comment").val();
+                                        let comment = $("#comment");
+                                        let comment_text = comment.val();
                                         str = str.match(/(\w+)/g);
                                         let wordCount = str.length;
                                         let parent_id = $("#parent_id").val();
-                                        ;
-
 
                                         if (wordCount != 2) {
                                             alert('Имя должно содержать два слова');
                                             return;
                                         }
-                                        if (comment.length == 0) {
+                                        if (comment_text.length === 0) {
                                             alert('Введите коментарий');
                                             return;
                                         }
@@ -46,7 +43,7 @@
                                             data: {
                                                 _token: "{{csrf_token()}}",
                                                 author: str[0].firstLetterCaps() + " " + str[1].firstLetterCaps(),
-                                                content: comment,
+                                                content: comment_text,
                                                 parent_id: parent_id
                                             },
                                             dataType: 'JSON',
@@ -61,11 +58,10 @@
 
                                             }
                                         });
-                                        $("#author").val('');
-                                        $("#comment").val('');
+                                        author.val('');
+                                        comment.val('');
                                     }
-
-                                </script>--}}
+                                </script>
 
                 @if (isset($category->id))
                     <input id="parent_id" type="hidden" name="parent_id" value="1{{$category->id}}">
@@ -76,8 +72,7 @@
                 @endif
 
 
-                <button type="button" class="btn btn-default btn-lg" onclick="getMessage()"
-                        title="Отправить коментарий">
+                <button id="msg_send" type="button" class="btn btn-default btn-lg" title="Отправить коментарий" onclick="sendMessage()">
                     <i class="far fa-comment" style="font-size:150px;"></i>
                 </button>
             </div>
