@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
-use App\Comment;
 use App\Category;
 use Illuminate\Http\Request;
 
@@ -53,12 +51,10 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $articles = Article::where('parent_id','=',$category->id)->orderBy('name')->get();
-        $comments = Comment::where('parent_id','=','1'.$category->id)->orderBy('updated_at')->get();
         return view('categories.show', [
             'category' => $category,
-            'articles' => $articles,
-            'comments' => $comments
+            'articles' => $category->articles,
+            'comments' => $category->comments
         ]);
     }
 
@@ -97,11 +93,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $articles = Article::where('parent_id', '=', $category->id)->get();
-        foreach ($articles as $article)  {
-            Comment:: where('parent_id','=','2'.$article->id)->delete();
-        }
-        Comment:: where('parent_id','=','1'.$category->id)->delete();
         $category->delete();
         return redirect()->route('category.index');
     }

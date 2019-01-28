@@ -26,8 +26,8 @@
                                         let comment_text = comment.val();
                                         str = str.match(/(\w+)/g);
                                         let wordCount = str.length;
-                                        let parent_id = $("#parent_id").val();
-
+                                        let category_id = $("#category_id").val();
+                                        let article_id = $("#article_id").val();
                                         if (wordCount != 2) {
                                             alert('Имя должно содержать два слова');
                                             return;
@@ -44,7 +44,8 @@
                                                 _token: "{{csrf_token()}}",
                                                 author: str[0].firstLetterCaps() + " " + str[1].firstLetterCaps(),
                                                 content: comment_text,
-                                                parent_id: parent_id
+                                                category_id: category_id,
+                                                article_id: article_id,
                                             },
                                             dataType: 'JSON',
                                             success: function (data) {
@@ -64,12 +65,15 @@
                                 </script>
 
                 @if (isset($category->id))
-                    <input id="parent_id" type="hidden" name="parent_id" value="1{{$category->id}}">
+                    <input id="category_id" type="hidden" value="{{$category->id}}">
                 @elseif (isset($article->id))
-                    <input id="parent_id" type="hidden" name="parent_id" value="2{{$article->id}}">
+                    <input id="article_id" type="hidden" value="{{$article->id}}">
+                @endif
+{{--
                 @else
                     <input id="parent_id" type="hidden" name="parent_id" value="0">
-                @endif
+
+--}}
 
 
                 <button id="msg_send" type="button" class="btn btn-default btn-lg" title="Отправить коментарий" onclick="sendMessage()">

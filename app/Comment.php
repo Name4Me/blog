@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     // Mass assigned
-    protected $fillable = ['parent_id', 'author', 'content'];
+    protected $fillable = ['author', 'content','category_id','article_id'];
     //
 }

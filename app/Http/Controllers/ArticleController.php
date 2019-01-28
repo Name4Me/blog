@@ -60,10 +60,9 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $comments = Comment::where('parent_id','=','2'.$article->id)->orderBy('updated_at')->get();
         return view('articles.show', [
             'article' => $article,
-            'comments' => $comments
+            'comments' => $article->comments
         ]);
     }
 
@@ -107,7 +106,6 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        Comment:: where('parent_id','=','2'.$article->id)->delete();
         $article->delete();
         return redirect()->route('article.index');
     }
